@@ -12,7 +12,7 @@ In order to use it you need 3 things:
    
 ### Get an authorization token 
 
-Go to: https://github.com/cvaldev/strupload/oauth/strava?state=tokenize
+Go to: https://strupload.herokuapp.com/oauth/strava?state=tokenize
 
 Save the token, and move to the next step
 
