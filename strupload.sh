@@ -33,15 +33,16 @@ source $config
 
 function getFiles {   
     # Get the date we last ran the service and successfully uploaded
-    local last_update=`journalctl --output-fields="MESSAGE" -o verbose -r -u $service | egrep -B 1 "uploads" |awk 'NR==1 {print $2,$3}'`
+    local last_update=`journalctl -r -o short-full -u $service | egrep "uploads" | awk 'NR==1 {print $2,$3}'`
     local last_update_date=`date "+%Y%m%d%H%M%S" --date="$last_update"`
-    
     # Check files at ACTIVITIES_PATH to see if there are any new files
     local files=`ls -t $ACTIVITIES_PATH`
     for file in $files
     do
         local path="$ACTIVITIES_PATH/$file"
-        local date=`ls -l --time-style="+%Y%m%d%H%M%S" $path | awk '{print $6}'`
+
+        # Set the TZ=utc because my watch is not on the same time zone as my pc 
+        local date=`TZ=utc ls -l --time-style="+%Y%m%d%H%M%S" $path | awk '{print $6}'`
 
         if [[ -n $date && $date > $last_update_date ]]
         then
