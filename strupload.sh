@@ -35,7 +35,7 @@ function getFiles {
     # Get the date we last ran the service and successfully uploaded
     local last_update=`journalctl --output-fields="MESSAGE" -o verbose -r -u $service | egrep -B 1 "uploads" |awk 'NR==1 {print $2,$3}'`
     local last_update_date=`date "+%Y%m%d%H%M%S" --date="$last_update"`
-    echo $last_update_date
+    
     # Check files at ACTIVITIES_PATH to see if there are any new files
     local files=`ls -t $ACTIVITIES_PATH`
     for file in $files
